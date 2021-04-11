@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reactive.Linq;
 
-namespace SimpleFactoryMethods
+namespace RxIntro.Step2
 {
-    class Program
+    class SimpleFactoryMethods
     {
         static void Return_FactoryMethod()
         {
@@ -101,7 +101,6 @@ namespace SimpleFactoryMethods
                 x => Console.WriteLine(x),
                 ex => Console.WriteLine($"Error {ex.Message}"),
                 () => Console.WriteLine("Sequence completed"));
-
         }
 
         static void Main(string[] args)
