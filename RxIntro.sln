@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01_SimpleFactoryMethods", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02_FactoryMethodBuilding", "FactoryMethodBuilding\02_FactoryMethodBuilding.csproj", "{C50C050B-F039-4CA8-9804-75FE6E172B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03_TimerEventSequences", "03_TimerEventSequences\03_TimerEventSequences.csproj", "{DD4CB551-D01D-4D05-9BD2-790406E5A942}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03_TimerEventSequences", "03_TimerEventSequences\03_TimerEventSequences.csproj", "{DD4CB551-D01D-4D05-9BD2-790406E5A942}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Functional unfolds", "02-Functional unfolds", "{2E58E8F9-8BDA-4A6C-A1E1-8EFA458436A5}"
 EndProject
@@ -21,11 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Transitioning into IObse
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Reducing a sequence", "02-Reducing a sequence", "{2A0F833E-5DD7-4747-B0D6-095B63F48D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04_Corecursion", "01_Corecursion\04_Corecursion.csproj", "{A79929D7-7CFD-4144-9E80-F70E23AAB6F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04_Corecursion", "01_Corecursion\04_Corecursion.csproj", "{A79929D7-7CFD-4144-9E80-F70E23AAB6F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05_RxTimers", "02_Timers\05_RxTimers.csproj", "{657EFFD6-B9D9-423D-89E7-3047A838E9EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "06_RxTimers", "02_Timers\06_RxTimers.csproj", "{657EFFD6-B9D9-423D-89E7-3047A838E9EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06_ObservableGenerateExercise", "06_ObservableGenerateExercise\06_ObservableGenerateExercise.csproj", "{3656A4B1-10D5-4694-9015-44D0239A60FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "05_ObservableGenerateExercise", "06_ObservableGenerateExercise\05_ObservableGenerateExercise.csproj", "{3656A4B1-10D5-4694-9015-44D0239A60FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
