@@ -10,9 +10,10 @@ namespace RxIntro.Step2
             static void FromAction()
             {
                 var s = Observable.Start(
-                    () => {
+                    () =>
+                    {
                         Console.WriteLine("Action started");
-                        for(var i=0; i != 10; ++i)
+                        for (var i = 0; i != 10; ++i)
                         {
                             Console.Write("a");
                             System.Threading.Thread.Sleep(100);
@@ -23,13 +24,14 @@ namespace RxIntro.Step2
 
                 s.Subscribe(
                     x => Console.WriteLine($"Action: {x}"),
-                    () => Console.WteLine("Action: completed"));
+                    () => Console.WriteLine("Action: completed"));
             }
 
             static void FromFunc()
             {
                 var s = Observable.Start(
-                    () => {
+                    () =>
+                    {
                         Console.WriteLine("Function started");
                         for (var i = 0; i != 10; ++i)
                         {
@@ -50,11 +52,49 @@ namespace RxIntro.Step2
             FromFunc();
         }
 
+        static System.Timers.Timer _timer;
+
+        static void FromEventPattern()
+        {
+            var s = Observable.FromEventPattern<System.Timers.ElapsedEventHandler, System.Timers.ElapsedEventArgs>(
+                h => h.Invoke,
+                h => _timer.Elapsed += h,
+                h => _timer.Elapsed -= h);
+            var d = s.Subscribe(
+                x => Console.WriteLine($"FromEventPattern: {x.EventArgs.SignalTime}"),
+                ex => Console.WriteLine($"FromEventPattern: {ex.Message}"),
+                () => Console.WriteLine("FromEventPattern: completed"));
+        }
+
+        static void FromEvent()
+        {
+            var s1 = Observable.FromEvent<System.Timers.ElapsedEventHandler, System.Timers.ElapsedEventArgs>(
+                h => (s, e) => h(e),
+                h => _timer.Elapsed += h,
+                h => _timer.Elapsed -= h);
+            var d1 = s1.Subscribe(
+                x => Console.WriteLine($"FromEvent: {x.SignalTime}"),
+                ex => Console.WriteLine($"FromEvent: {ex.Message}"),
+                () => Console.WriteLine("FromEvent: completed"));
+        }
+
         static void Main(string[] args)
         {
+            Console.WriteLine($"{nameof(FromDelegate)}");
             FromDelegate();
 
-            Console.ReadLine();
+            System.Threading.Tasks.Task.Delay(2000).Wait();
+            Console.WriteLine();
+
+            Console.WriteLine($"{nameof(FromEventPattern)} and {nameof(FromEvent)}");
+            using (_timer = new System.Timers.Timer(1000))
+            {
+                _timer.Start();
+                FromEventPattern();
+                FromEvent();
+                System.Threading.Tasks.Task.Delay(5000).Wait();
+                _timer.Stop();
+            }
         }
     }
 }
