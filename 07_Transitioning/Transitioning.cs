@@ -94,22 +94,22 @@ namespace RxIntro.Step2
 
         static void Main(string[] args)
         {
-            //Console.WriteLine($"{nameof(FromDelegate)}");
-            //FromDelegate();
+            Console.WriteLine($"{nameof(FromDelegate)}");
+            FromDelegate();
 
-            //System.Threading.Tasks.Task.Delay(2000).Wait();
-            //Console.WriteLine();
+            System.Threading.Tasks.Task.Delay(2000).Wait();
+            Console.WriteLine();
 
-            //Console.WriteLine($"{nameof(FromEventPattern)} and {nameof(FromEvent)}");
-            //using (_timer = new System.Timers.Timer(1000))
-            //{
-            //    _timer.Start();
-            //    FromEventPattern();
-            //    FromEvent();
-            //    System.Threading.Tasks.Task.Delay(5000).Wait();
-            //    _timer.Stop();
-            //}
-            //Console.WriteLine();
+            Console.WriteLine($"{nameof(FromEventPattern)} and {nameof(FromEvent)}");
+            using (_timer = new System.Timers.Timer(1000))
+            {
+                _timer.Start();
+                FromEventPattern();
+                FromEvent();
+                System.Threading.Tasks.Task.Delay(5000).Wait();
+                _timer.Stop();
+            }
+            Console.WriteLine();
 
             FromTask();
             System.Threading.Tasks.Task.Delay(2000).Wait();
