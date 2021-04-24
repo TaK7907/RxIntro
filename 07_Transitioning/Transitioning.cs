@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Reactive.Concurrency;
 
 namespace RxIntro.Step2
 {
@@ -78,23 +80,39 @@ namespace RxIntro.Step2
                 () => Console.WriteLine("FromEvent: completed"));
         }
 
+        static void FromTask()
+        {
+            Console.WriteLine($"{nameof(FromTask)}: (TID:{System.Threading.Thread.CurrentThread.ManagedThreadId})");
+            var t = System.Threading.Tasks.Task<string>.Run(()=> {
+                System.Threading.Thread.Sleep(500);
+                return $"FromTaskTest (TID:{System.Threading.Thread.CurrentThread.ManagedThreadId})";
+                });
+            var s = t.ToObservable();
+            var d = s.Subscribe(Console.WriteLine,
+                () => Console.WriteLine($"End (TID:{System.Threading.Thread.CurrentThread.ManagedThreadId})"));
+        }
+
         static void Main(string[] args)
         {
-            Console.WriteLine($"{nameof(FromDelegate)}");
-            FromDelegate();
+            //Console.WriteLine($"{nameof(FromDelegate)}");
+            //FromDelegate();
 
+            //System.Threading.Tasks.Task.Delay(2000).Wait();
+            //Console.WriteLine();
+
+            //Console.WriteLine($"{nameof(FromEventPattern)} and {nameof(FromEvent)}");
+            //using (_timer = new System.Timers.Timer(1000))
+            //{
+            //    _timer.Start();
+            //    FromEventPattern();
+            //    FromEvent();
+            //    System.Threading.Tasks.Task.Delay(5000).Wait();
+            //    _timer.Stop();
+            //}
+            //Console.WriteLine();
+
+            FromTask();
             System.Threading.Tasks.Task.Delay(2000).Wait();
-            Console.WriteLine();
-
-            Console.WriteLine($"{nameof(FromEventPattern)} and {nameof(FromEvent)}");
-            using (_timer = new System.Timers.Timer(1000))
-            {
-                _timer.Start();
-                FromEventPattern();
-                FromEvent();
-                System.Threading.Tasks.Task.Delay(5000).Wait();
-                _timer.Stop();
-            }
         }
     }
 }
