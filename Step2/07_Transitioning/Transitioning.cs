@@ -2,11 +2,16 @@
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Reactive.Concurrency;
+using System.Timers;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace RxIntro.Step2
 {
     class Transitioning
     {
+        static System.Timers.Timer _timer;
+
         static void FromDelegate()
         {
             static void FromAction()
@@ -18,7 +23,7 @@ namespace RxIntro.Step2
                         for (var i = 0; i != 10; ++i)
                         {
                             Console.Write("a");
-                            System.Threading.Thread.Sleep(100);
+                            Thread.Sleep(100);
                         }
                         Console.WriteLine();
                         Console.WriteLine("Action is being completed");
@@ -38,7 +43,7 @@ namespace RxIntro.Step2
                         for (var i = 0; i != 10; ++i)
                         {
                             Console.Write("f");
-                            System.Threading.Thread.Sleep(100);
+                            Thread.Sleep(100);
                         }
                         Console.WriteLine();
                         Console.WriteLine("Function is being completed");
@@ -54,11 +59,9 @@ namespace RxIntro.Step2
             FromFunc();
         }
 
-        static System.Timers.Timer _timer;
-
         static void FromEventPattern()
         {
-            var s = Observable.FromEventPattern<System.Timers.ElapsedEventHandler, System.Timers.ElapsedEventArgs>(
+            var s = Observable.FromEventPattern<ElapsedEventHandler, ElapsedEventArgs>(
                 h => h.Invoke,
                 h => _timer.Elapsed += h,
                 h => _timer.Elapsed -= h);
@@ -70,7 +73,7 @@ namespace RxIntro.Step2
 
         static void FromEvent()
         {
-            var s1 = Observable.FromEvent<System.Timers.ElapsedEventHandler, System.Timers.ElapsedEventArgs>(
+            var s1 = Observable.FromEvent<ElapsedEventHandler, ElapsedEventArgs>(
                 h => (s, e) => h(e),
                 h => _timer.Elapsed += h,
                 h => _timer.Elapsed -= h);
@@ -82,14 +85,15 @@ namespace RxIntro.Step2
 
         static void FromTask()
         {
-            Console.WriteLine($"{nameof(FromTask)}: (TID:{System.Threading.Thread.CurrentThread.ManagedThreadId})");
-            var t = System.Threading.Tasks.Task<string>.Run(()=> {
-                System.Threading.Thread.Sleep(500);
-                return $"FromTaskTest (TID:{System.Threading.Thread.CurrentThread.ManagedThreadId})";
-                });
+            Console.WriteLine($"{nameof(FromTask)}: (TID:{Thread.CurrentThread.ManagedThreadId})");
+            var t = Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                return $"FromTaskTest (TID:{Thread.CurrentThread.ManagedThreadId})";
+            });
             var s = t.ToObservable();
             var d = s.Subscribe(Console.WriteLine,
-                () => Console.WriteLine($"End (TID:{System.Threading.Thread.CurrentThread.ManagedThreadId})"));
+                () => Console.WriteLine($"End (TID:{Thread.CurrentThread.ManagedThreadId})"));
         }
 
         static void Main(string[] args)
@@ -97,7 +101,7 @@ namespace RxIntro.Step2
             Console.WriteLine($"{nameof(FromDelegate)}");
             FromDelegate();
 
-            System.Threading.Tasks.Task.Delay(2000).Wait();
+            Task.Delay(2000).Wait();
             Console.WriteLine();
 
             Console.WriteLine($"{nameof(FromEventPattern)} and {nameof(FromEvent)}");
@@ -106,13 +110,13 @@ namespace RxIntro.Step2
                 _timer.Start();
                 FromEventPattern();
                 FromEvent();
-                System.Threading.Tasks.Task.Delay(5000).Wait();
+                Task.Delay(5000).Wait();
                 _timer.Stop();
             }
             Console.WriteLine();
 
             FromTask();
-            System.Threading.Tasks.Task.Delay(2000).Wait();
+            Task.Delay(2000).Wait();
         }
     }
 }
